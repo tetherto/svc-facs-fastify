@@ -33,11 +33,11 @@ const DEFAULT_ROUTES = [
   }
 ]
 
-class HttpServerFacility extends Base {
+class HttpderverFacility extends Base {
   constructor (caller, opts, ctx) {
     super(caller, opts, ctx)
 
-    this.name = 'server-http'
+    this.name = 'httpd'
     this._hasConf = true
 
     this.init()
@@ -111,4 +111,4 @@ class HttpServerFacility extends Base {
   }
 }
 
-module.exports = HttpServerFacility
+module.exports = HttpderverFacility
