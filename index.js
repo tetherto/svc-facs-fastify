@@ -1,7 +1,6 @@
 'use strict'
 
 const async = require('async')
-const _ = require('lodash')
 const Fastify = require('fastify')
 const Base = require('bfx-facs-base')
 const debug = require('debug')('hp:server:http')
@@ -72,17 +71,17 @@ class HttpdFacility extends Base {
 
     this.server = fastify
 
-    _.each(this.mem.plugins, p => {
+    this.mem.plugins.forEach(p => {
       this.server.register(p[0], p[1])
     })
 
     if (this.opts.addDefaultRoutes) {
-      _.each(DEFAULT_ROUTES, r => {
+      DEFAULT_ROUTES.forEach(r => {
         this.server.route(r)
       })
     }
 
-    _.each(this.mem.routes, r => {
+    this.mem.routes.forEach(r => {
       this.server.route(r)
     })
 
