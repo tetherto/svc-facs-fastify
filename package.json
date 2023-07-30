@@ -1,5 +1,5 @@
 {
-  "name": "svc-facs-fastify",
+  "name": "svc-facs-server-http",
   "version": "0.0.1",
   "private": false,
   "description": "SVC Facility Fastify",
@@ -24,7 +24,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tetherto/svc-facs-fastify.git"
+    "url": "git+https://github.com/tetherto/svc-facs-server-http.git"
   },
   "maintainers": [
     {

@@ -5,11 +5,11 @@ const Fastify = require('fastify')
 const Base = require('bfx-facs-base')
 const debug = require('debug')('hp:rpc')
 
-class FastifyFacility extends Base {
+class HttpServerFacility extends Base {
   constructor (caller, opts, ctx) {
     super(caller, opts, ctx)
 
-    this.name = 'fastify'
+    this.name = 'server-http'
     this._hasConf = true
 
     this.init()
@@ -59,4 +59,4 @@ class FastifyFacility extends Base {
   }
 }
 
-module.exports = FastifyFacility
+module.exports = HttpServerFacility
