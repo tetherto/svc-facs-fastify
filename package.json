@@ -1,0 +1,35 @@
+{
+  "name": "svc-facs-fastify",
+  "version": "0.0.1",
+  "private": false,
+  "description": "SVC Facility Fastify",
+  "author": {
+    "name": "prdn",
+    "email": "paolo@tether.to"
+  },
+  "main": "index.js",
+  "keywords": [
+    "bitfinex"
+  ],
+  "dependencies": {
+    "async": "^3.2.1",
+    "bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git",
+    "debug": "^4.3.4",
+    "fastify": "^4.21.0",
+    "lodash": "^4.17.21"
+  },
+  "engine": {
+    "node": ">=8.0"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tetherto/svc-facs-fastify.git"
+  },
+  "maintainers": [
+    {
+      "name": "prdn",
+      "email": "paolo@tether.to"
+    }
+  ]
+}
