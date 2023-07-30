@@ -33,7 +33,7 @@ const DEFAULT_ROUTES = [
   }
 ]
 
-class HttpderverFacility extends Base {
+class HttpdFacility extends Base {
   constructor (caller, opts, ctx) {
     super(caller, opts, ctx)
 
@@ -111,4 +111,4 @@ class HttpderverFacility extends Base {
   }
 }
 
-module.exports = HttpderverFacility
+module.exports = HttpdFacility
