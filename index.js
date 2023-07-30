@@ -1,9 +1,37 @@
 'use strict'
 
 const async = require('async')
+const _ = require('lodash')
 const Fastify = require('fastify')
 const Base = require('bfx-facs-base')
 const debug = require('debug')('hp:rpc')
+
+const DEFAULT_ROUTES = [
+  {
+    method: 'GET',
+    url: '/echo',
+    schema: {
+      querystring: {
+        type: 'object',
+        properties: {
+          value: { type: 'string'}
+        },
+        required: ['value'],
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            value: { type: 'string' }
+          }
+        }
+      }
+    },
+    handler: async (request, reply) => {
+      return { value: request.query.value }
+    }
+  }
+]
 
 class HttpServerFacility extends Base {
   constructor (caller, opts, ctx) {
@@ -15,32 +43,27 @@ class HttpServerFacility extends Base {
     this.init()
   }
 
-  async handleReply (met, data) {
-    try {
-      data = this.parseInputJSON(data)
-    } catch (e) {
-      return this.toOutJSON(`[HRPC_ERR]=${e.message}`)
-    }
-
-    try {
-      const res = await this.caller[met](data)
-      return this.toOutJSON(res)
-    } catch (e) {
-      return this.toOutJSON(`[HRPC_ERR]=${e.message}`)
-    }
-  }
-
   _start (cb) {
     async.series([
       next => { super._start(next) },
       async () => {
         const fastify = Fastify({
-          logger: true
+          logger: this.opts.logger
         })
 
         this.server = fastify
 
-        this.server.listen({
+        if (this.opts.addDefaultRoutes) {
+          _.each(DEFAULT_ROUTES, r => {
+            this.server.route(r)
+          })
+        }
+
+        _.each(this.opts.routes, r => {
+          this.server.route(r)
+        })
+
+        await this.server.listen({
           port: this.conf.port
         })
       }
