@@ -4,7 +4,7 @@ const async = require('async')
 const _ = require('lodash')
 const Fastify = require('fastify')
 const Base = require('bfx-facs-base')
-const debug = require('debug')('hp:rpc')
+const debug = require('debug')('hp:server:http')
 
 const DEFAULT_ROUTES = [
   {
