@@ -64,7 +64,7 @@ class HttpServerFacility extends Base {
         })
 
         await this.server.listen({
-          port: this.conf.port
+          port: this.opts.port || this.conf.port
         })
       }
     ], cb)
