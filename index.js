@@ -14,9 +14,9 @@ const DEFAULT_ROUTES = [
       querystring: {
         type: 'object',
         properties: {
-          value: { type: 'string'}
+          value: { type: 'string' }
         },
-        required: ['value'],
+        required: ['value']
       },
       response: {
         200: {
@@ -41,31 +41,60 @@ class HttpServerFacility extends Base {
     this._hasConf = true
 
     this.init()
+
+    this.mem = { plugins: [], routes: [] }
+  }
+
+  addRoute (r) {
+    if (this.server) {
+      throw new Error('ERR_FACS_SERVER_HTTP_ALREADY_INITED')
+    }
+
+    this.mem.routes.push(r)
+  }
+
+  addPlugin (p) {
+    if (this.server) {
+      throw new Error('ERR_FACS_SERVER_HTTP_ALREADY_INITED')
+    }
+
+    this.mem.plugins.push(p)
+  }
+
+  async startServer () {
+    if (this.server) {
+      throw new Error('ERR_FACS_SERVER_HTTP_CREATE_DUP')
+    }
+
+    const fastify = Fastify({
+      logger: this.opts.logger
+    })
+
+    this.server = fastify
+
+    _.each(this.mem.plugins, p => {
+      this.server.register(p[0], p[1])
+    })
+
+    if (this.opts.addDefaultRoutes) {
+      _.each(DEFAULT_ROUTES, r => {
+        this.server.route(r)
+      })
+    }
+
+    _.each(this.mem.routes, r => {
+      this.server.route(r)
+    })
+
+    return await this.server.listen({
+      port: this.opts.port || this.conf.port
+    })
   }
 
   _start (cb) {
     async.series([
       next => { super._start(next) },
       async () => {
-        const fastify = Fastify({
-          logger: this.opts.logger
-        })
-
-        this.server = fastify
-
-        if (this.opts.addDefaultRoutes) {
-          _.each(DEFAULT_ROUTES, r => {
-            this.server.route(r)
-          })
-        }
-
-        _.each(this.opts.routes, r => {
-          this.server.route(r)
-        })
-
-        await this.server.listen({
-          port: this.opts.port || this.conf.port
-        })
       }
     ], cb)
   }
