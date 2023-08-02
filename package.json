@@ -11,14 +11,22 @@
   "keywords": [
     "bitfinex"
   ],
+  "scripts": {
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "test": "npm run lint"
+  },
   "dependencies": {
     "async": "^3.2.1",
     "bfx-facs-base": "git+https://github.com/bitfinexcom/bfx-facs-base.git",
     "debug": "^4.3.4",
     "fastify": "^4.21.0"
   },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
   "engine": {
-    "node": ">=8.0"
+    "node": ">=16.0"
   },
   "license": "Apache-2.0",
   "repository": {
