@@ -102,14 +102,6 @@ class HttpdFacility extends Base {
     })
   }
 
-  _start (cb) {
-    async.series([
-      next => { super._start(next) },
-      async () => {
-      }
-    ], cb)
-  }
-
   _stop (cb) {
     async.series([
       next => { super._stop(next) },
