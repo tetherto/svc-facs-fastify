@@ -1,9 +1,8 @@
 'use strict'
 
 const async = require('async')
-const Fastify = require('fastify')
 const Base = require('bfx-facs-base')
-const debug = require('debug')('hp:server:http')
+const Fastify = require('fastify')
 
 const DEFAULT_ROUTES = [
   {
@@ -41,7 +40,7 @@ class HttpdFacility extends Base {
 
     this.init()
 
-    this.mem = { plugins: [], routes: [] }
+    this.mem = { plugins: [], routes: [], decorators: [] }
   }
 
   addRoute (r) {
@@ -50,6 +49,14 @@ class HttpdFacility extends Base {
     }
 
     this.mem.routes.push(r)
+  }
+
+  addDecorator (d) {
+    if (this.server) {
+      throw new Error('ERR_FACS_SERVER_HTTP_ALREADY_INITED')
+    }
+
+    this.mem.decorators.push(d)
   }
 
   addPlugin (p) {
@@ -66,7 +73,8 @@ class HttpdFacility extends Base {
     }
 
     const fastify = Fastify({
-      logger: this.opts.logger
+      logger: this.opts.logger,
+      trustProxy: this.opts.trustProxy
     })
 
     this.server = fastify
@@ -79,6 +87,10 @@ class HttpdFacility extends Base {
 
     this.mem.plugins.forEach(p => {
       this.server.register(p[0], p[1])
+    })
+
+    this.mem.decorators.forEach(d => {
+      this.server.decorate(d[0], d[1], d[2])
     })
 
     if (this.opts.addDefaultRoutes) {
@@ -94,14 +106,6 @@ class HttpdFacility extends Base {
     return await this.server.listen({
       port: this.opts.port || this.conf.port
     })
-  }
-
-  _start (cb) {
-    async.series([
-      next => { super._start(next) },
-      async () => {
-      }
-    ], cb)
   }
 
   _stop (cb) {

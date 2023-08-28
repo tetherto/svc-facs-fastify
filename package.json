@@ -11,6 +11,11 @@
   "keywords": [
     "bitfinex"
   ],
+  "scripts": {
+    "lint": "standard",
+    "lint:fix": "standard --fix",
+    "test": "npm run lint"
+  },
   "dependencies": {
     "@fastify/static": "^6.10.2",
     "async": "^3.2.1",
@@ -18,8 +23,11 @@
     "debug": "^4.3.4",
     "fastify": "^4.21.0"
   },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
   "engine": {
-    "node": ">=8.0"
+    "node": ">=16.0"
   },
   "license": "Apache-2.0",
   "repository": {
