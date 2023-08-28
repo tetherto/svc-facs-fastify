@@ -83,7 +83,7 @@ class HttpdFacility extends Base {
       this.server.register(require('@fastify/static'), {
         root: this.opts.staticRootPath,
         prefix: this.opts.staticPrefix,
-        constraints: this.ops.staticConstraints
+        constraints: this.opts.staticConstraints
       })
     }
 
