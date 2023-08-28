@@ -71,6 +71,12 @@ class HttpdFacility extends Base {
 
     this.server = fastify
 
+    if (this.opts.staticRootDir) {
+      this.server.register(require('@fastify/static'), {
+        root: this.opts.staticRootDir
+      })
+    }
+
     this.mem.plugins.forEach(p => {
       this.server.register(p[0], p[1])
     })
