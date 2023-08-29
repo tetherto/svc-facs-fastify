@@ -85,6 +85,12 @@ class HttpdFacility extends Base {
         prefix: this.opts.staticPrefix,
         constraints: this.opts.staticConstraints
       })
+
+      if (this.opts.staticOn404File) {
+        this.server.setNotFoundHandler((_, reply) => {
+          return reply.code(404).type('text/html').sendFile(this.opts.staticOn404File)
+        })
+      }
     }
 
     this.mem.plugins.forEach(p => {
