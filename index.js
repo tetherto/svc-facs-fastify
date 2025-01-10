@@ -107,8 +107,10 @@ class HttpdFacility extends Base {
       })
     }
 
-    this.mem.routes.forEach(r => {
-      this.server.route(r)
+    this.server.register(async () => {
+      this.mem.routes.forEach(r => {
+        this.server.route(r)
+      })
     })
 
     return await this.server.listen({
